@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Component Selection Guide</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+      line-height: 1.6;
+      color: #333;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    
+    h1 {
+      color: #2c3e50;
+      margin-bottom: 30px;
+    }
+    
+    .container {
+      background-color: #f9f9f9;
+      border-radius: 8px;
+      padding: 30px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+    
+    .question-container {
+      margin-bottom: 20px;
+    }
+    
+    .question {
+      font-size: 18px;
+      font-weight: 500;
+      margin-bottom: 15px;
+    }
+    
+    .options {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+    
+    .option-btn {
+      background-color: #fff;
+      border: 2px solid #ddd;
+      border-radius: 6px;
+      padding: 12px 20px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      min-width: 120px;
+      text-align: center;
+    }
+    
+    .option-btn:hover {
+      border-color: #3498db;
+    }
+    
+    .option-btn.selected {
+      background-color: #3498db;
+      color: white;
+      border-color: #3498db;
+    }
+    
+    .result-container {
+      display: none;
+      background-color: #fff;
+      border-radius: 8px;
+      padding: 20px;
+      margin-top: 30px;
+      border-left: 5px solid #2ecc71;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+    
+    .result-title {
+      font-size: 24px;
+      color: #2c3e50;
+      margin-bottom: 10px;
+    }
+    
+    .result-description {
+      font-size: 16px;
+      margin-bottom: 15px;
+    }
+    
+    .result-benefits {
+      margin-top: 15px;
+    }
+    
+    .result-benefits h3 {
+      font-size: 18px;
+      margin-bottom: 10px;
+    }
+    
+    .benefit-item {
+      display: flex;
+      align-items: flex-start;
+      margin-bottom: 8px;
+    }
+    
+    .benefit-item:before {
+      content: "•";
+      color: #2ecc71;
+      font-weight: bold;
+      margin-right: 10px;
+    }
+    
+    .restart-btn {
+      background-color: #3498db;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      padding: 12px 24px;
+      font-size: 16px;
+      cursor: pointer;
+      margin-top: 20px;
+      transition: background-color 0.2s ease;
+    }
+    
+    .restart-btn:hover {
+      background-color: #2980b9;
+    }
+    
+    .progress-bar {
+      height: 6px;
+      background-color: #eee;
+      border-radius: 3px;
+      margin-bottom: 30px;
+      overflow: hidden;
+    }
+    
+    .progress-fill {
+      height: 100%;
+      background-color: #3498db;
+      width: 0%;
+      transition: width 0.3s ease;
+    }
+    
+    .component-image {
+      max-width: 100%;
+      border-radius: 6px;
+      margin: 15px 0;
+      border: 1px solid #eee;
+    }
+    
+    .path-display {
+      font-size: 14px;
+      color: #666;
+      margin-top: 15px;
+      padding-top: 15px;
+      border-top: 1px solid #eee;
+    }
+    
+    .path-item {
+      display: inline-block;
+      background-color: #f4f4f4;
+      padding: 3px 8px;
+      border-radius: 4px;
+      margin-right: 5px;
+      margin-bottom: 5px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Interactive Component Selection Guide</h1>
+    
+    <div class="progress-bar">
+      <div class="progress-fill" id="progressFill"></div>
+    </div>
+    
+    <div id="quiz">
+      <div class="question-container" id="question1">
+        <div class="question">1. How many options will you present to users?</div>
+        <div class="options">
+          <button class="option-btn" onclick="selectOption('q1', 'few', this)">Few (2-5 options)</button>
+          <button class="option-btn" onclick="selectOption('q1', 'many', this)">Many (5+ options)</button>
+        </div>
+      </div>
+      
+      <div class="question-container" id="question2" style="display: none;">
+        <div class="question">2. What type of selection does your interface need?</div>
+        <div class="options">
+          <button class="option-btn" onclick="selectOption('q2', 'single', this)">Single select (one option only)</button>
+          <button class="option-btn" onclick="selectOption('q2', 'multi', this)">Multi select (multiple options)</button>
+        </div>
+      </div>
+      
+      <div class="question-container" id="question3" style="display: none;">
+        <div class="question">3. How much visual emphasis does this selection need?</div>
+        <div class="options">
+          <button class="option-btn" onclick="selectOption('q3', 'high', this)">High emphasis (important decision)</button>
+          <button class="option-btn" onclick="selectOption('q3', 'medium', this)">Medium emphasis (balanced)</button>
+          <button class="option-btn" onclick="selectOption('q3', 'low', this)">Low emphasis (standard form)</button>
+        </div>
+      </div>
+      
+      <div class="question-container" id="question4" style="display: none;">
+        <div class="question">4. Are the option labels very short and consistent in length?</div>
+        <div class="options">
+          <button class="option-btn" onclick="selectOption('q4', 'yes', this)">Yes (like tags or categories)</button>
+          <button class="option-btn" onclick="selectOption('q4', 'no', this)">No (longer or varied lengths)</button>
+        </div>
+      </div>
+    </div>
+    
+    <div class="result-container" id="resultContainer">
+      <div class="result-title" id="resultTitle"></div>
+      <div class="result-description" id="resultDescription"></div>
+      <div class="component-image" id="resultImage">
+        <img src="/api/placeholder/400/150" alt="Component Example" id="componentImage" />
+      </div>
+      <div class="result-benefits">
+        <h3>Best used when:</h3>
+        <div id="resultBenefits"></div>
+      </div>
+      <div class="path-display" id="pathDisplay"></div>
+      <button class="restart-btn" onclick="restartQuiz()">Start Over</button>
+    </div>
+  </div>
+  
+  <script>
+    // State tracking
+    const state = {
+      q1: null,
+      q2: null,
+      q3: null,
+      q4: null,
+      currentQuestion: 1,
+      totalQuestions: 4
+    };
+    
+    // Component data
+    const components = {
+      boxedTile: {
+        title: "Boxed Tile",
+        description: "Tile components with prominent visual styling, clear borders, and distinct selected states. Can function as either radio buttons (single select) or checkboxes (multi-select).",
+        benefits: [
+          "High-impact decisions that need visual prominence",
+          "Selections that benefit from larger tap/click areas",
+          "Options that may include icons or images along with text",
+          "Important feature configurations or settings"
+        ]
+      },
+      flatTile: {
+        title: "Flat Tile",
+        description: "More subtle tile components with minimal styling in unselected state, but clear indication when selected. Works for both single and multi-select.",
+        benefits: [
+          "Medium-emphasis selections that still need good tap/click areas",
+          "When you need a balance between visual impact and simplicity",
+          "Lists with 5+ options that need better visibility than standard controls",
+          "Secondary settings or preferences in an interface"
+        ]
+      },
+      chips: {
+        title: "Chips",
+        description: "Compact, pill-shaped selectable elements that work well for short labels. Effective for both single and multi-select interactions.",
+        benefits: [
+          "Filtering interfaces (tags, categories, attributes)",
+          "When space is at a premium",
+          "For options with very short, consistent length labels",
+          "Creating a more modern, app-like feel for selections"
+        ]
+      },
+      radio: {
+        title: "Radio Buttons",
+        description: "Standard form controls for selecting a single option from a list. Minimal visual styling but clear functionality.",
+        benefits: [
+          "Traditional forms with many options",
+          "When following platform conventions is important",
+          "When visual emphasis should be minimal",
+          "For very familiar, standard selection patterns"
+        ]
+      },
+      checkbox: {
+        title: "Checkboxes",
+        description: "Standard form controls for selecting multiple options from a list. Familiar and space-efficient.",
+        benefits: [
+          "Form contexts where users expect standard controls",
+          "Settings or preferences that don't need visual emphasis",
+          "Long lists of options where space efficiency matters",
+          "When aligning with platform conventions is important"
+        ]
+      },
+      toggle: {
+        title: "Toggle Switch",
+        description: "A binary control that visually communicates on/off or enabled/disabled status. Used for single option activation.",
+        benefits: [
+          "Binary settings (on/off, enabled/disabled)",
+          "Feature toggles that benefit from the visual metaphor of a switch",
+          "Mobile-friendly interfaces",
+          "When immediate application of the setting is expected"
+        ]
+      },
+      dropdown: {
+        title: "Dropdown Select",
+        description: "Space-saving control that reveals options only when activated. Best for single selection from longer lists.",
+        benefits: [
+          "When screen space is limited",
+          "For long lists of options (5+ items)",
+          "When the selection isn't the primary focus of the interface",
+          "For familiar form patterns where discoverability isn't crucial"
+        ]
+      }
+    };
+    
+    // Label mapping for displaying the path
+    const pathLabels = {
+      q1: {
+        few: "Few options (2-5)",
+        many: "Many options (5+)"
+      },
+      q2: {
+        single: "Single select",
+        multi: "Multi select"
+      },
+      q3: {
+        high: "High emphasis",
+        medium: "Medium emphasis",
+        low: "Low emphasis"
+      },
+      q4: {
+        yes: "Short labels",
+        no: "Standard labels"
+      }
+    };
+    
+    // Select an option and move to next question
+    function selectOption(question, value, element) {
+      // Clear previous selections for this question
+      const options = element.parentElement.querySelectorAll('.option-btn');
+      options.forEach(opt => opt.classList.remove('selected'));
+      
+      // Mark this option as selected
+      element.classList.add('selected');
+      
+      // Store the answer
+      state[question] = value;
+      
+      // Update progress
+      updateProgress();
+      
+      // Determine next question or show result
+      if (question === 'q1') {
+        showQuestion(2);
+      } else if (question === 'q2') {
+        showQuestion(3);
+      } else if (question === 'q3') {
+        // For some paths we need to ask about label length
+        if ((state.q1 === 'few' && state.q3 === 'high') || 
+            (state.q1 === 'many' && state.q3 === 'high') ||
+            (state.q1 === 'few' && state.q3 === 'medium')) {
+          showQuestion(4);
+        } else {
+          // Otherwise we have enough info to show a result
+          showResult();
+        }
+      } else if (question === 'q4') {
+        showResult();
+      }
+    }
+    
+    // Show a specific question
+    function showQuestion(num) {
+      // Hide all questions
+      for (let i = 1; i <= state.totalQuestions; i++) {
+        document.getElementById(`question${i}`).style.display = 'none';
+      }
+      
+      // Show the requested question
+      document.getElementById(`question${num}`).style.display = 'block';
+      state.currentQuestion = num;
+    }
+    
+    // Update progress bar
+    function updateProgress() {
+      const progress = (state.currentQuestion / state.totalQuestions) * 100;
+      document.getElementById('progressFill').style.width = `${progress}%`;
+    }
+    
+    // Determine and show the result
+    function showResult() {
+      // Hide quiz
+      document.getElementById('quiz').style.display = 'none';
+      
+      // Decision logic for component recommendation
+      let recommendedComponent;
+      
+      // UPDATED SELECTION LOGIC
+      if (state.q1 === 'few') {
+        // FEW OPTIONS (2-5)
+        if (state.q3 === 'high') {
+          // High emphasis
+          if (state.q4 === 'yes') {
+            recommendedComponent = 'chips';
+          } else {
+            recommendedComponent = 'boxedTile';
+          }
+        } else if (state.q3 === 'medium') {
+          // Medium emphasis
+          if (state.q4 === 'yes' && state.q2 === 'multi') {
+            recommendedComponent = 'chips';
+          } else {
+            recommendedComponent = 'flatTile';
+          }
+        } else { // low emphasis
+          if (state.q2 === 'single') {
+            recommendedComponent = 'radio';
+          } else {
+            recommendedComponent = 'checkbox';
+          }
+        }
+      } else { 
+        // MANY OPTIONS (5+)
+        if (state.q3 === 'high') {
+          // High emphasis with many options
+          if (state.q4 === 'yes') {
+            recommendedComponent = 'chips';
+          } else {
+            recommendedComponent = 'flatTile'; // Updated: now using Flat Tile for high emphasis, many options
+          }
+        } else if (state.q3 === 'medium') {
+          recommendedComponent = 'flatTile';
+        } else { // low emphasis
+          if (state.q2 === 'single') {
+            recommendedComponent = 'dropdown';
+          } else { // multi select
+            recommendedComponent = 'checkbox';
+          }
+        }
+      }
+      
+      // Special case for toggle
+      if (state.q2 === 'single' && state.q1 === 'few' && state.q3 === 'low') {
+        // If it's just 2 options, suggest toggle as an alternative
+        const toggleNote = "<p><strong>Alternative:</strong> For binary choices (yes/no, on/off), consider using a Toggle Switch instead.</p>";
+        document.getElementById('resultDescription').innerHTML = components[recommendedComponent].description + toggleNote;
+      } else {
+        document.getElementById('resultDescription').innerHTML = components[recommendedComponent].description;
+      }
+      
+      // Populate result details
+      document.getElementById('resultTitle').textContent = components[recommendedComponent].title;
+      
+      const benefitsContainer = document.getElementById('resultBenefits');
+      benefitsContainer.innerHTML = '';
+      components[recommendedComponent].benefits.forEach(benefit => {
+        const benefitElement = document.createElement('div');
+        benefitElement.className = 'benefit-item';
+        benefitElement.textContent = benefit;
+        benefitsContainer.appendChild(benefitElement);
+      });
+      
+      // Show the decision path
+      const pathDisplay = document.getElementById('pathDisplay');
+      pathDisplay.innerHTML = '<strong>Your selection path:</strong><br>';
+      
+      for (const q in state) {
+        if (q.startsWith('q') && state[q] !== null) {
+          const qNum = q.substring(1);
+          if (pathLabels[q] && pathLabels[q][state[q]]) {
+            const pathItem = document.createElement('span');
+            pathItem.className = 'path-item';
+            pathItem.textContent = pathLabels[q][state[q]];
+            pathDisplay.appendChild(pathItem);
+          }
+        }
+      }
+      
+      // Show result container
+      document.getElementById('resultContainer').style.display = 'block';
+    }
+    
+    // Restart the quiz
+    function restartQuiz() {
+      // Reset state
+      state.q1 = null;
+      state.q2 = null;
+      state.q3 = null;
+      state.q4 = null;
+      state.currentQuestion = 1;
+      
+      // Clear selected options
+      const options = document.querySelectorAll('.option-btn');
+      options.forEach(opt => opt.classList.remove('selected'));
+      
+      // Reset progress
+      document.getElementById('progressFill').style.width = '0%';
+      
+      // Hide result container
+      document.getElementById('resultContainer').style.display = 'none';
+      
+      // Show question 1 and hide others
+      for (let i = 1; i <= state.totalQuestions; i++) {
+        document.getElementById(`question${i}`).style.display = i === 1 ? 'block' : 'none';
+      }
+      
+      // Show quiz container
+      document.getElementById('quiz').style.display = 'block';
+    }
+    
+    // Initialize
+    updateProgress();
+  </script>
+</body>
+</html>
