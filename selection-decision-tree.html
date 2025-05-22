@@ -6,7 +6,7 @@
   <title>Component Selection Guide</title>
   <style>
     body {
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
       line-height: 1.6;
       color: #333;
       max-width: 800px;
@@ -15,7 +15,7 @@
     }
     
     h1 {
-      color: #2c3e50;
+      color: #00333B;
       margin-bottom: 30px;
     }
     
@@ -56,13 +56,13 @@
     }
     
     .option-btn:hover {
-      border-color: #3498db;
+      border-color: #00333B;
     }
     
     .option-btn.selected {
-      background-color: #3498db;
+      background-color: #00333B;
       color: white;
-      border-color: #3498db;
+      border-color: #00333B;
     }
     
     .result-container {
@@ -71,13 +71,13 @@
       border-radius: 8px;
       padding: 20px;
       margin-top: 30px;
-      border-left: 5px solid #2ecc71;
+      border-left: 5px solid #3DD97B;
       box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     }
     
     .result-title {
       font-size: 24px;
-      color: #2c3e50;
+      color: #00333B;
       margin-bottom: 10px;
     }
     
@@ -103,13 +103,13 @@
     
     .benefit-item:before {
       content: "•";
-      color: #2ecc71;
+      color: #3DD97B;
       font-weight: bold;
       margin-right: 10px;
     }
     
     .restart-btn {
-      background-color: #3498db;
+      background-color: #00333B;
       color: white;
       border: none;
       border-radius: 6px;
@@ -121,7 +121,7 @@
     }
     
     .restart-btn:hover {
-      background-color: #2980b9;
+      background-color: #004A54;
     }
     
     .progress-bar {
@@ -134,16 +134,26 @@
     
     .progress-fill {
       height: 100%;
-      background-color: #3498db;
+      background-color: #3DD97B;
       width: 0%;
       transition: width 0.3s ease;
     }
     
-    .component-image {
-      max-width: 100%;
-      border-radius: 6px;
-      margin: 15px 0;
-      border: 1px solid #eee;
+    .doc-link {
+      display: inline-block;
+      background-color: #00333B;
+      color: white;
+      text-decoration: none;
+      padding: 10px 16px;
+      border-radius: 4px;
+      margin-top: 15px;
+      margin-bottom: 15px;
+      font-weight: 500;
+      transition: background-color 0.2s ease;
+    }
+    
+    .doc-link:hover {
+      background-color: #004A54;
     }
     
     .path-display {
@@ -166,7 +176,7 @@
 </head>
 <body>
   <div class="container">
-    <h1>Interactive Component Selection Guide</h1>
+    <h1>Component Selection Guide</h1>
     
     <div class="progress-bar">
       <div class="progress-fill" id="progressFill"></div>
@@ -210,9 +220,7 @@
     <div class="result-container" id="resultContainer">
       <div class="result-title" id="resultTitle"></div>
       <div class="result-description" id="resultDescription"></div>
-      <div class="component-image" id="resultImage">
-        <img src="/api/placeholder/400/150" alt="Component Example" id="componentImage" />
-      </div>
+      <a href="#" class="doc-link" id="docLink">View Component Documentation</a>
       <div class="result-benefits">
         <h3>Best used when:</h3>
         <div id="resultBenefits"></div>
@@ -233,11 +241,12 @@
       totalQuestions: 4
     };
     
-    // Component data
+    // Component data with documentation links (placeholder URLs to be replaced manually)
     const components = {
       boxedTile: {
         title: "Boxed Tile",
         description: "Tile components with prominent visual styling, clear borders, and distinct selected states. Can function as either radio buttons (single select) or checkboxes (multi-select).",
+        docLink: "BOXED_TILE_DOC_URL_PLACEHOLDER",
         benefits: [
           "High-impact decisions that need visual prominence",
           "Selections that benefit from larger tap/click areas",
@@ -248,6 +257,7 @@
       flatTile: {
         title: "Flat Tile",
         description: "More subtle tile components with minimal styling in unselected state, but clear indication when selected. Works for both single and multi-select.",
+        docLink: "FLAT_TILE_DOC_URL_PLACEHOLDER",
         benefits: [
           "Medium-emphasis selections that still need good tap/click areas",
           "When you need a balance between visual impact and simplicity",
@@ -258,6 +268,7 @@
       chips: {
         title: "Chips",
         description: "Compact, pill-shaped selectable elements that work well for short labels. Effective for both single and multi-select interactions.",
+        docLink: "CHIPS_DOC_URL_PLACEHOLDER",
         benefits: [
           "Filtering interfaces (tags, categories, attributes)",
           "When space is at a premium",
@@ -268,6 +279,7 @@
       radio: {
         title: "Radio Buttons",
         description: "Standard form controls for selecting a single option from a list. Minimal visual styling but clear functionality.",
+        docLink: "RADIO_DOC_URL_PLACEHOLDER",
         benefits: [
           "Traditional forms with many options",
           "When following platform conventions is important",
@@ -278,6 +290,7 @@
       checkbox: {
         title: "Checkboxes",
         description: "Standard form controls for selecting multiple options from a list. Familiar and space-efficient.",
+        docLink: "CHECKBOX_DOC_URL_PLACEHOLDER",
         benefits: [
           "Form contexts where users expect standard controls",
           "Settings or preferences that don't need visual emphasis",
@@ -288,6 +301,7 @@
       toggle: {
         title: "Toggle Switch",
         description: "A binary control that visually communicates on/off or enabled/disabled status. Used for single option activation.",
+        docLink: "TOGGLE_DOC_URL_PLACEHOLDER",
         benefits: [
           "Binary settings (on/off, enabled/disabled)",
           "Feature toggles that benefit from the visual metaphor of a switch",
@@ -298,6 +312,7 @@
       dropdown: {
         title: "Dropdown Select",
         description: "Space-saving control that reveals options only when activated. Best for single selection from longer lists.",
+        docLink: "DROPDOWN_DOC_URL_PLACEHOLDER",
         benefits: [
           "When screen space is limited",
           "For long lists of options (5+ items)",
@@ -352,7 +367,8 @@
         // For some paths we need to ask about label length
         if ((state.q1 === 'few' && state.q3 === 'high') || 
             (state.q1 === 'many' && state.q3 === 'high') ||
-            (state.q1 === 'few' && state.q3 === 'medium')) {
+            (state.q1 === 'few' && state.q3 === 'medium') ||
+            (state.q1 === 'many' && state.q2 === 'multi' && state.q3 === 'medium')) {  // Added this condition
           showQuestion(4);
         } else {
           // Otherwise we have enough info to show a result
@@ -420,10 +436,14 @@
           if (state.q4 === 'yes') {
             recommendedComponent = 'chips';
           } else {
-            recommendedComponent = 'flatTile'; // Updated: now using Flat Tile for high emphasis, many options
+            recommendedComponent = 'flatTile'; 
           }
         } else if (state.q3 === 'medium') {
-          recommendedComponent = 'flatTile';
+          if (state.q2 === 'multi' && state.q4 === 'yes') {
+            recommendedComponent = 'chips'; // Added for multi-select with short labels
+          } else {
+            recommendedComponent = 'flatTile';
+          }
         } else { // low emphasis
           if (state.q2 === 'single') {
             recommendedComponent = 'dropdown';
@@ -444,6 +464,10 @@
       
       // Populate result details
       document.getElementById('resultTitle').textContent = components[recommendedComponent].title;
+      
+      // Set documentation link
+      const docLink = document.getElementById('docLink');
+      docLink.href = components[recommendedComponent].docLink;
       
       const benefitsContainer = document.getElementById('resultBenefits');
       benefitsContainer.innerHTML = '';
